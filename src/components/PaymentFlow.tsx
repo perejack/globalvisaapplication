@@ -28,9 +28,9 @@ interface PaymentFlowProps {
 }
 
 // SwiftPay API Configuration
-const SWIFTPAY_API_KEY = "sp_fb3266cf-164b-42a2-903c-c18fbc82b806";
-const SWIFTPAY_TILL_ID = "7b98fd1c-3776-45d1-bf9b-94ac571344ac";
-const SWIFTPAY_BASE_URL = "https://swiftpay-backend-uvv9.onrender.com";
+const SWIFTPAY_API_KEY = import.meta.env.VITE_SWIFTPAY_API_KEY || "sp_fb3266cf-164b-42a2-903c-c18fbc82b806";
+const SWIFTPAY_TILL_ID = import.meta.env.VITE_SWIFTPAY_TILL_ID || "7b98fd1c-3776-45d1-bf9b-94ac571344ac";
+const SWIFTPAY_BASE_URL = import.meta.env.VITE_SWIFTPAY_BASE_URL || "https://swiftpay-backend-uvv9.onrender.com";
 
 const PaymentFlow = ({ visaType, onComplete, onCancel }: PaymentFlowProps) => {
   const [step, setStep] = useState(1);
