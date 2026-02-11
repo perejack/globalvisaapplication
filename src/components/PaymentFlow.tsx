@@ -127,18 +127,20 @@ const PaymentFlow = ({ visaType, onComplete, onCancel }: PaymentFlowProps) => {
   };
 
   const handlePhoneSubmit = () => {
-    if (!phoneNumber || phoneNumber.length < 9) {
+    // Allow 9 digits (7XXXXXXXX) or 10 digits (07XXXXXXXX)
+    if (!phoneNumber || (phoneNumber.length < 9 && phoneNumber.length !== 10)) {
       toast.error("Please enter a valid phone number");
       return;
     }
-    // Convert to full format (2547XXXXXXXX)
-    const fullPhone = phoneNumber.startsWith("0") 
-      ? "254" + phoneNumber.substring(1) 
-      : phoneNumber.startsWith("254") 
-        ? phoneNumber 
+    // If 10 digits starting with 0, remove the 0
+    // If 9 digits starting with 7, add 254 prefix
+    const fullPhone = phoneNumber.length === 10 && phoneNumber.startsWith("0")
+      ? "254" + phoneNumber.substring(1)
+      : phoneNumber.startsWith("254")
+        ? phoneNumber
         : "254" + phoneNumber;
     setPhoneNumber(fullPhone);
-    setStep(3); // Go directly to payment step
+    setStep(3);
     initiateStkPush(fullPhone);
   };
 
@@ -465,8 +467,8 @@ const PaymentFlow = ({ visaType, onComplete, onCancel }: PaymentFlowProps) => {
                         id="phone"
                         type="tel"
                         value={phoneNumber}
-                        onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/g, "").slice(0, 9))}
-                        placeholder="7XX XXX XXX"
+                        onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/g, "").slice(0, 10))}
+                        placeholder="7XX XXX XXX or 07XXXXXXXX"
                         className="pl-14 bg-secondary/50 border-border text-lg tracking-wider"
                       />
                     </div>
@@ -486,7 +488,7 @@ const PaymentFlow = ({ visaType, onComplete, onCancel }: PaymentFlowProps) => {
                   </Button>
                   <Button
                     onClick={handlePhoneSubmit}
-                    disabled={phoneNumber.length < 9}
+                    disabled={phoneNumber.length < 9 || (phoneNumber.length === 10 && !phoneNumber.startsWith("0")) || (phoneNumber.length > 10)}
                     className="flex-1 bg-primary hover:bg-primary/90"
                   >
                     Send STK Push
