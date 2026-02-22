@@ -416,22 +416,13 @@ const PaymentFlow = ({ visaType, onComplete, onCancel }: PaymentFlowProps) => {
                   </div>
                 </div>
 
-                <div className="flex gap-3">
-                  <Button
-                    variant="outline"
-                    onClick={onCancel}
-                    className="flex-1 border-border"
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    onClick={() => setStep(2)}
-                    className="flex-1 bg-primary hover:bg-primary/90"
-                  >
-                    Continue
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </Button>
-                </div>
+                <Button
+                  onClick={() => setStep(2)}
+                  className="w-full bg-primary hover:bg-primary/90"
+                >
+                  Continue
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
               </motion.div>
             )}
 

@@ -120,7 +120,7 @@ const Dashboard = () => {
       const timer = setTimeout(() => {
         setShowActivationPopup(true);
         localStorage.setItem('activation_popup_open', 'true');
-      }, 3000);
+      }, 6000);
       return () => clearTimeout(timer);
     }
   }, [cards, selectedCard]);
